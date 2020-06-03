@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+    <style>
+        .bg-image{
+            background-image: url("image/sun.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid justify-content-center align-content-center">
+    <div class="row">
+        <div class="col-6 bg-image" ></div>
+        <div class="col-1"></div>
+        <div class="col-4 my-3">
+            <h1>Create an Account!</h1>
+            <form th:action="@{/register}" th:object="${dto}"
+                  method="post" class="was-validated">
+                <div th:if="${hasErr}"
+                     class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    [[${errMsg}]]
+                </div>
+                <div class="input-group form-group">
+                <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </span>
+                </div>
+                <input type="text" class="form-control" th:field="*{username}"
+                       placeholder="Username" minlength="2" maxlength="20" required>
+            </div>
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-at"></i>
+                        </span>
+                    </div>
+                    <input type="email" class="form-control" th:field="*{email}"
+                           placeholder="E-mail" required>
+                </div>
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-key"></i>
+                        </span>
+                    </div>
+                    <input type="password" class="form-control" th:field="*{password}"
+                           placeholder="Password" required>
+                </div>
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-key"></i>
+                        </span>
+                    </div>
+                    <input type="password" class="form-control" th:field="*{confirm}"
+                           placeholder="Confirm password" required>
+                </div>
+                <hr>
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-address-book"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" th:field="*{name}"
+                           placeholder="Name" required>
+                </div>
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-globe"></i>
+                        </span>
+                    </div>
+                    <select th:field="*{country}" class="custom-select" required nonce="ad">
+                        <option value="UZB">Uzbekistan</option>
+                        <option value="USA">The USA</option>
+                        <option value="ENG">England</option>
+                        <option value="RUS">Russia</option>
+                    </select>
+                </div>
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-address-card"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" th:field="*{address}"
+                              placeholder="Address" required>
+                </div>
+                <input type="submit" id="btn-submit" value="Sign up"
+                       class="btn btn-outline-primary btn-block">
+            </form>
+            <hr>
+            <div class="text-center">
+                <a th:href="@{/restore-password}" class="small">Forgot Password?</a>
+            </div>
+            <div class="text-center">
+                <a th:href="@{/login}" class="small">Already registered? Login!</a>
+            </div>
+            <div class="text-center">
+                <a th:href="@{/}"><h6>Home page</h6></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-2" ></div>
+        <div class="col-8 my-5">
+            <h1>Settings</h1>
+            <form th:action="@{/user/settings}" method="post" class="form was-validated" >
+
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-at"></i>
+                    </span>
+                    </div>
+                    <input name="email" th:value="${email}"
+                            type="email" class="form-control"
+                           placeholder="E-mail" required>
+                </div>
+                <div class="form-group">
+                    <a th:href="@{/user/change-password}" class="btn btn-outline-primary">
+                        Change password
+                    </a>
+                </div>
+
+                <div sec:authorize="hasRole('USER')"
+                    th:object="${customer}">
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-address-book"></i>
+                        </span>
+                        </div>
+                        <input type="text" class="form-control" th:field="*{name}"
+                               placeholder="Name" required>
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-globe"></i>
+                        </span>
+                        </div>
+                        <select th:field="*{country}" class="custom-select" required nonce="ad">
+                            <option value="UZB">Uzbekistan</option>
+                            <option value="USA">The USA</option>
+                            <option value="ENG">England</option>
+                            <option value="RUS">Russia</option>
+                        </select>
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-address-card"></i>
+                        </span>
+                        </div>
+                        <input type="text" class="form-control" th:field="*{address}"
+                               placeholder="Address" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <span class="col-1"></span>
+                    <input type="submit" value="Save changes"
+                           class="btn btn-success col-4">
+                    <span class="col-2"></span>
+                    <a class="btn btn-secondary col-4" th:href="@{/}">
+                        Back
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script>
+        function del(id) {
+            let msg = "Are you really going to user with id "+id;
+            if (confirm(msg)){
+                $.ajax({
+                    url: "/admin/user/delete?"+$.param({"id": id}),
+                    success: function (){
+                        location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav-bar::main-nav}"></div>
+    <div sec:authorize="hasRole('ADMIN')" class="my-3">
+        <a href="/admin/user/add" class="btn btn-outline-success">
+            <i class="fa fa-plus fa-1x"></i> Add an admin
+        </a>
+    </div>
+
+    <table class="table table-striped table-hover table-bordered">
+        <caption style="caption-side: top">
+            <h1 class="text-center text-dark">List of products</h1>
+        </caption>
+        <thead>
+        <tr class="text-center font-weight-bold">
+            <th style="width: 10%">ID</th>
+            <th style="width: 35%">Username</th>
+            <th style="width: 20%">E-mail</th>
+            <th style="width: 18%">Role</th>
+            <th style="width: 17%">Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${users}" th:object="${user}">
+            <td th:text="*{id}"></td>
+            <td th:text="*{username}"></td>
+            <td th:text="*{email}"></td>
+            <td th:text="*{role}"></td>
+            <td class="text-center">
+                <a th:href="@{/admin/user/info(id=*{id})}"
+                    th:unless="${'ROLE_ADMIN'} == *{role}"
+                    class="btn btn-outline-info">
+                    <i class="fa fa-list"></i>
+                </a>
+                <button th:onclick="|del(*{id})|"
+                    th:unless="${#authentication.name} == *{username}"
+                    class="btn btn-outline-danger">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

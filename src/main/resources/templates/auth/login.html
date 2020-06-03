@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}" type="text/css">
+    <style>
+        .bg-image{
+            background-image: url("image/sun.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid justify-content-center align-content-center">
+    <div class="row">
+        <div class="col-6 bg-image"></div>
+        <div class="col-1"></div>
+        <div class="col-4 my-5">
+            <h1>Welcome Back !</h1>
+
+            <div th:if="${hasError}" class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Login or password is incorrect !
+            </div>
+            <div th:if="${isLoggedOut}" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                You have successfully logged out !
+            </div>
+            <div th:if="${linkSent}" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Link to reset password is sent to your e-mail !
+            </div>
+
+            <form th:action="@{/login}" method="post" class="was-validated">
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" name="username"
+                           placeholder="Username" minlength="2" maxlength="20" required>
+                </div>
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-key"></i>
+                        </span>
+                    </div>
+                    <input type="password" class="form-control" name="password"
+                           placeholder="Password" required>
+                </div>
+                <input type="submit" value="Login" class="btn btn-outline-primary btn-block">
+            </form>
+            <hr>
+
+            <div class="text-center">
+                <a th:href="@{/restore-password}" class="small">Forgot Password?</a>
+            </div>
+            <div class="text-center">
+                <a th:href="@{/register}" class="small">Not registered? Create an Account!</a>
+            </div>
+            <div class="text-center">
+                <a th:href="@{/}"><h6>Home page</h6></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

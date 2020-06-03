@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice detailed</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{/fragment/nav-bar::main-nav}"></div>
+    <button class="btn btn-secondary my-3"
+            onclick="window.history.back()">
+        Back
+    </button>
+    <h1>Invoice details</h1>
+    <a th:href="@{/order/detailed(id=${orderId})}"
+       class="card-link">
+        Show order details
+    </a>
+    <a th:unless="${invoiceDetail.status} == 2" sec:authorize="hasRole('USER')"
+        th:href="@{/customer/invoice/pay(invoiceId=${invoiceDetail.invoiceId})}"
+        class="card-link">
+        Make payment
+    </a>
+    <div th:object="${invoiceDetail}">
+        <h4 th:text="|Invoice id : *{invoiceId}|"></h4>
+        <h4 th:text="'Amount : ' + *{amount} + ' $'"></h4>
+        <h4 th:text="|Issued date : *{issued}|"></h4>
+        <h4 th:text="|Due date : *{due}|"></h4>
+        <div th:switch="*{status}">
+            <h4 th:case="0">Status: Not paid</h4>
+            <h4 th:case="1">Status: Not fully paid</h4>
+            <h4 th:case="2">Status: Paid</h4>
+        </div>
+        <table th:if="0 < *{status}"
+            class="table table-bordered">
+            <caption style="caption-side: top">
+                <h3 class="text-center text-dark">Payments</h3>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Amount</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="payment : ${invoiceDetail.payments}" th:object="${payment}">
+                    <td th:text="*{id}"></td>
+                    <td th:text="*{amount}"></td>
+                    <td th:text="*{time}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

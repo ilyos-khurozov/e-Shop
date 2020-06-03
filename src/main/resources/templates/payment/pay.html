@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pay</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{/fragment/nav-bar::main-nav}"></div>
+    <button class="btn btn-secondary my-3"
+            onclick="window.history.back()">
+        Back
+    </button>
+    <h1>Make payment</h1>
+    <h4 th:text="'Invoice id : ' + ${invoiceId}"></h4>
+    <h4 th:text="'Remaining amount ($) : ' + ${remaining}"></h4>
+    <form method="post" th:action="@{/customer/invoice/pay(invoiceId = ${invoiceId})}">
+        <div class="form-group">
+            <input type="number" name="amount" min="0.01" th:max="${remaining}" step="0.01"
+                   required class="form-control w-25">
+        </div>
+        <input type="submit" class="btn btn-success w-25" value="PAY">
+    </form>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

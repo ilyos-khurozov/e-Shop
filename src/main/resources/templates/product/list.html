@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script>
+        function del(id) {
+            let el = document.getElementById("p" + id);
+            let msg = "Are you really going to delete "+el.innerText;
+            if (confirm(msg)){
+                $.ajax({
+                    url: "/admin/product/delete?"+$.param({"id": id}),
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav-bar::main-nav}"></div>
+    <div sec:authorize="hasRole('ADMIN')" class="my-3">
+        <a href="/admin/product/add" class="btn btn-outline-success">
+            <i class="fa fa-plus fa-1x"></i> Add a new product
+        </a>
+        <a th:if="${hasZero}" th:href="@{/products}"
+           class="btn btn-outline-primary">
+            Hide products with zero quantity
+        </a>
+        <a th:unless="${hasZero}" th:href="@{/products(hasZero)}"
+           class="btn btn-outline-primary">
+            Show products with zero quantity
+        </a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(products)}">
+        <h1>There is no product to show!</h1>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(products)}">
+        <table class="table table-striped table-hover table-bordered">
+            <caption style="caption-side: top">
+                <h1 class="text-center text-dark">List of products</h1>
+            </caption>
+            <thead>
+            <tr class="text-center font-weight-bold">
+                <th style="width: 10%">#</th>
+                <th style="width: 35%">Name</th>
+                <th style="width: 20%">Price per product</th>
+                <th style="width: 18%">Products in shop</th>
+                <th style="width: 17%">More</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product, row : ${products}" th:object="${product}">
+
+                <td th:text="${row.count}"></td>
+                <td th:id="p+*{id}"
+                    th:text="*{name}"></td>
+                <td th:text="|*{price}|+' $'"></td>
+                <td th:text="*{quantity}"></td>
+                <td class="text-center">
+                    <a th:href="@{/product/view(id=*{id})}"
+                       class="btn btn-outline-info">
+                        <i class="fa fa-list"></i>
+                    </a>
+                    <form sec:authorize="hasRole('USER')"
+                        th:action="@{/customer/cart/add}" method="post"
+                        class="d-inline">
+
+                        <input type="hidden" name="id" th:value="*{id}">
+                        <button type="submit" class="btn btn-outline-success">
+                            <i class="fa fa-cart-plus"></i>
+                        </button>
+                    </form>
+                    <a sec:authorize="hasRole('ADMIN')"
+                       th:href="@{/admin/product/edit(id=*{id})}"
+                       class="btn btn-outline-primary">
+                        <i class="fa fa-pencil-alt"></i>
+                    </a>
+                    <button sec:authorize="hasRole('ADMIN')"
+                            th:onclick="|del(*{id})|"
+                       class="btn btn-outline-danger">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

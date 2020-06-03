@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoices</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav-bar::main-nav}"></div>
+    <h1 th:if="${#lists.isEmpty(invoices)}" class="my-3">There is no invoices</h1>
+    <div th:unless="${#lists.isEmpty(invoices)}">
+        <h1 class="my-3">Invoices</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center font-weight-bold">
+                    <td>#</td>
+                    <td>Invoice ID</td>
+                    <td>Amount</td>
+                    <td>Status</td>
+                    <td sec:authorize="hasRole('ADMIN')">Customer ID</td>
+                    <td>Options</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="invoice, row : ${invoices}" th:object="${invoice}">
+                    <td th:text="${row.count}"></td>
+                    <td th:text="*{id}"></td>
+                    <td th:text="*{amount}"></td>
+                    <td th:switch="*{status}">
+                        <span th:case="0">Not paid</span>
+                        <span th:case="1">Not fully paid</span>
+                        <span th:case="2">Paid</span>
+                    </td>
+                    <td sec:authorize="hasRole('ADMIN')"
+                        th:text="*{order.customer.id}"></td>
+                    <td class="text-center">
+                        <a th:href="@{/invoice/detailed(id=*{id})}"
+                           class="btn btn-outline-info">
+                            <i class="fa fa-list"></i>
+                        </a>
+                        <a sec:authorize="hasRole('USER')"
+                            th:unless="2 == *{status}"
+                            th:href="@{/customer/invoice/pay(invoiceId=*{id})}"
+                            class="btn btn-outline-success">
+                            <i class="fa fa-money-bill"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

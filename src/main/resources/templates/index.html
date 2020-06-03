@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Shop</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+    <style>
+        .bg-image{
+            background-image: url("image/bg.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid bg-image px-0">
+    <div th:replace="~{/fragment/nav-bar::main-nav}"></div>
+    <h1 class="text-center align-center">e-Shop</h1>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

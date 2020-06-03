@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add product</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-2" ></div>
+        <div class="col-8 my-5">
+            <h1>New product :</h1>
+            <form th:action="@{/admin/product/add}" th:object="${product}"
+                  method="post" class="form was-validated" >
+                <div class="form-group">
+                    <label>Name </label>
+                    <input type="text" class="form-control" th:field="*{name}" required>
+                </div>
+                <div class="form-group">
+                    <label>Description </label>
+                    <input type="text" class="form-control" th:field="*{description}" required>
+                </div>
+                <div class="form-group">
+                    <label>Price </label>
+                    <input type="number" class="form-control" th:field="*{price}" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Quantity </label>
+                    <input type="number" class="form-control" th:field="*{quantity}" required>
+                </div>
+
+                <div class="row">
+                    <span class="col-1"></span>
+                    <input type="submit" value="Add product"
+                        class="btn btn-success col-4">
+                    <span class="col-2"></span>
+                    <input type="button" value="Cancel"
+                        class="btn btn-secondary col-4"
+                        onclick="window.history.back()">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Product details</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{/fragment/nav-bar::main-nav}"></div>
+    <button class="btn btn-secondary my-3"
+        onclick="window.history.back()">
+        Back
+    </button>
+    <h1>Product details</h1>
+    <table th:object="${product}"
+        class="table table-bordered">
+        <tr>
+            <td><b>Product ID</b></td>
+            <td th:text="*{id}"></td>
+        </tr>
+        <tr>
+            <td><b>Name</b></td>
+            <td th:text="*{name}"></td>
+        </tr>
+        <tr>
+            <td><b>Description</b></td>
+            <td th:text="*{description}"></td>
+        </tr>
+        <tr>
+            <td><b>Price</b></td>
+            <td th:text="*{price}"></td>
+        </tr>
+        <tr>
+            <td><b>In a shop</b></td>
+            <td th:text="*{quantity}"></td>
+        </tr>
+    </table>
+    <!--There also may be pictures of product-->
+    <form sec:authorize="hasRole('USER')"
+          th:action="@{/customer/product/add-to-cart}" method="post"
+          class="d-inline">
+
+        <input type="hidden" name="id" th:value="${product.id}">
+        <button type="submit" class="btn btn-outline-success">
+            <i class="fa fa-cart-plus"></i>
+            Add to cart
+        </button>
+    </form>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

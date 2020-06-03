@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payments</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav-bar::main-nav}"></div>
+    <h1 th:if="${#lists.isEmpty(payments)}" class="my-3">There is no payments</h1>
+    <div th:unless="${#lists.isEmpty(payments)}">
+        <h1 class="my-3">Payments</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center font-weight-bold">
+                    <td>#</td>
+                    <td>Payment ID</td>
+                    <td>Amount</td>
+                    <td>Time</td>
+                    <td>Invoice ID</td>
+                    <td>Customer ID</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="payment: ${payments}" th:object="${payment}">
+                    <td th:text="*{id}"></td>
+                    <td th:text="*{amount}"></td>
+                    <td th:text="*{time}"></td>
+                    <td th:text="*{invoice.id}"></td>
+                    <td th:text="*{invoice.order.customer.id}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

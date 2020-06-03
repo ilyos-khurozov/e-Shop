@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order details</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/fa-all.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{/fragment/nav-bar::main-nav}"></div>
+    <button class="btn btn-secondary my-3"
+        onclick="window.history.back()">
+        Back
+    </button>
+    <h1>Order details</h1>
+    <a th:unless="${invoiceId} == null" th:href="@{/invoice/detailed(id=${invoiceId})}"
+        class="nav-link">
+        Show invoice details
+    </a>
+    <h4 th:text="'Order id : '+${orderDetail.orderId}"></h4>
+    <h4 th:text="'Created date : '+${orderDetail.date}"></h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center font-weight-bold">
+                <td>#</td>
+                <td>Name</td>
+                <td>Quantity</td>
+                <td>Price</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item, row : ${orderDetail.items}" th:object="${item}">
+                <td th:text="${row.count}"></td>
+                <td th:text="*{name}"></td>
+                <td th:text="*{quantity}"></td>
+                <td th:text="*{price}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

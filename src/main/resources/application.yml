@@ -1,0 +1,17 @@
+server:
+  port: 8088
+  error:
+    include-exception: true
+    include-stacktrace: always
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eshop
+    username: postgres
+    password: postgres
+
+  thymeleaf:
+    cache: false
+
+  jpa:
+    open-in-view: false
