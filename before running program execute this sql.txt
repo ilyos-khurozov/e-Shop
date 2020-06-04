@@ -59,4 +59,4 @@ create table payment (
 );
 
 insert into users(username, password, email, role) 
-       values('admin', 134954997202637447970472082511855688159, 'admin@eshop.uz', 'ROLE_ADMIN');
+       values('admin', 123957004363873451094272536567338222994, 'admin@eshop.uz', 'ROLE_ADMIN');
